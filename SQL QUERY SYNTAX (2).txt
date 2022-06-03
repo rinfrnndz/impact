@@ -1,0 +1,49 @@
+SELECT activity_title, firstname, lastname, birthdate FROM activities acty, participants prt, projectcode pc WHERE acty.act_id = prt.act_id AND pc.projects_id = '1001' GROUP BY acty.activity_title;
+
+SELECT activity_title, firstname, lastname, birthdate FROM activities acty, participants prt, projectcode pc WHERE acty.act_id = prt.act_id AND acty.projects_id = pc.projects_id GROUP BY '1001';
+
+//qry to display participants from selected activity
+"SELECT * FROM projectcode projcode, activities acty, participants p WHERE p.act_id='$activityID' AND projcode.projects_id=acty.projects_id AND projcode.project_code='$programadmin' "
+
+//displaying all the participants from database under specific activity
+<?php
+      $programadmin = $_SESSION['username'];
+      $actvtyID = $_GET['id'];
+      $qryforthreetables = "SELECT * FROM projectcode projcode, activities acty, participants p WHERE p.act_id='$actvtyID' AND projcode.projects_id=acty.projects_id AND projcode.project_code='$programadmin' ";
+      $qrytoshowparticipants = mysqli_query($connect, $qryforthreetables);
+      while ($participants = mysqli_fetch_array($qrytoshowparticipants)) {
+    ?>
+      <tr>
+        <th scope="row"><?php echo $participants['id'];?></th>
+        <td><?php echo $participants['firstname'];?></td>
+        <td><?php echo $participants['lastname'];?></td>
+        <td><?php echo $participants['birthdate'];?></td>
+        <td><?php echo $participants['agerange'];?></td>
+      </tr>
+    <?php
+      }
+    ?>
+//calling function but no display -- error
+<?php
+      function participants_row() {
+        $programadmin = $_SESSION['username'];
+        $actvtyID = $_GET['id'];
+        $get_participants=$row->prepare("SELECT * FROM projectcode projcode, activities acty, participants p WHERE p.act_id='$actvtyID' AND projcode.projects_id=acty.projects_id AND projcode.project_code='$programadmin' ");
+        $get_participants->setFetchMode(PDO:: FETCH_ASSOC);
+        $get_participants->execute();
+
+        while($participantsrow=$get_participants->fetch()) {
+          echo
+            "
+            <tr>
+              <th scope='row'>".$participantsrow['id']. "</th>
+              <td>".$participantsrow['firstname']. "</td>
+              <td>".$participantsrow['lastname']. "</td>
+              <td>".$participantsrow['birthdate']. "</td>
+              <td>".$participantsrow['agerange']. "</td>
+            </tr>
+            ";
+        }
+      }
+      participants_row();
+    ?>

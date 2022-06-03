@@ -1,0 +1,31 @@
+queries to display in the report
+.ver1
+SELECT project_code, activity_title, activity_date 
+FROM projectcode
+INNER JOIN activities
+ON projectcode.project_code=activities.project_code
+INNER JOIN participants
+ON participants.activity_title=activities.activity_title
+
+.ver2
+SELECT project_code, activity_title, activity_date, firstname, lastname, birthdate, agerange, gender
+FROM projectcode
+INNER JOIN activities
+ON projectcode.project_code=activities.project_code
+INNER JOIN participants
+ON participants.activity_title=activities.activity_title
+
+.ver3
+SELECT project_code as CodeLists, activity_title as Titles, activity_date, firstname, lastname, birthdate, agerange, gender
+FROM projectcode
+INNER JOIN activities
+ON projectcode.project_code=activities.project_code
+INNER JOIN participants
+ON participants.activity_title=activities.activity_title;
+
+//syntax for showing the specific projectcode activities
+SELECT activity_title, activity_date
+FROM projectcode
+INNER JOIN activities
+ON projectcode.projects_id=activities.projects_id
+WHERE activities.project_code = "EnPoLD2";
